@@ -8,19 +8,7 @@ class Login extends Component {
         this.state = {
 
         }
-        this.handleUser = this.handleUser.bind(this);
-    }
-
-    handleUser(e){
-        let {userInput} = this.props;
-        this.setState({userInput: e.target.value})
-        console.log(e.target.value)
-    }
-
-    handlePassword(e){
-        let {passwordInput} = this.props;
-        this.setState({passwordInput: e.target.value})
-        console.log(e.target.value)
+        
     }
 
     render(){
@@ -28,12 +16,20 @@ class Login extends Component {
         return(
             <div className="login-box">
                 <div className="inputs-box">
-                    <input className="username" onChange ={(e) => this.handleUser(e)}
+                    
+                    <input className="username" 
+                    onChange ={this.props.handleUser}
+                    value = {this.props.userInput}
                     placeholder="username"/>
-                    <input className="password" onChange = {(e) => this.handlePassword(e)}
+                    
+                    <input className="password" 
+                    onChange = {this.props.handlePassword}
+                    value = {this.props.passwordInput}
                     placeholder="password"/>
+
                 </div>
-                <button className="login-button">Login</button>
+                <button className="login-button" 
+                onClick = {this.props.loginUser}>Login</button>
             </div>
         )
     }
