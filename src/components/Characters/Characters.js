@@ -12,7 +12,7 @@ class Characters extends Component{
 
     render(){
         const {name, height, mass} = this.props.characterProp;
-        console.log(this.props)
+        
         return(
         <div className='character' >
             <p>Name: {name}</p>
@@ -23,7 +23,7 @@ class Characters extends Component{
             <button onClick={() => this.props.deleteTeammate(name)}>Retire</button>
             <input onChange={this.props.handleBattleReady} 
             placeholder='Battle Ready?'/>
-            <button onClick={() => this.props.updateBattleReady(name)}>update</button>
+            <button onClick={() => this.props.updateBattleReady(name)}>UPDATE</button>
 
         </div>
         )

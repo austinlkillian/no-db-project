@@ -57,14 +57,15 @@ class App extends Component {
 getAllCharacters(){
   axios.get(`https://swapi.co/api/people/`)
   .then((response) => { 
-  console.log(response)
   this.setState({allCharacters: response.data.results})
 })
 }
 
 addMyTeam(name){
   let characterIndex = this.state.allCharacters.findIndex(character => character.name === name)
-axios.post(`/api/myTeam/`, {teammate: this.state.allCharacters[characterIndex]})
+  let person = this.state.allCharacters[characterIndex]
+  person.battleReady = 'Yes!'
+axios.post(`/api/myTeam/`, {teammate: person})
 .then(response =>{
   console.log(response)
   this.setState({myTeam: response.data})
@@ -80,9 +81,8 @@ deleteTeammate(name){
 
 updateBattleReady(name){
   let teammateIndex = this.state.myTeam.findIndex(character => character.name === name)
-axios.put(`/api/myTeam/`, {teammate: this.state.myTeam[teammateIndex]}, 
-{battleReady: this.state.battleReady},
-{battleInput: this.state.battleInput})
+axios.put(`/api/myTeam/`, {teammate: this.state.myTeam[teammateIndex].name,
+battleInput: this.state.battleInput})
 .then(response =>{
   console.log(response)
   this.setState({myTeam: response.data})
@@ -96,7 +96,7 @@ handleBattleReady(e){
 
   render() {
     let mappedCharacters = this.state.allCharacters.map((character, id) => {
-      console.log(character)
+      
       return <Characters 
       key={id} 
       characterProp={character} 
@@ -109,8 +109,8 @@ handleBattleReady(e){
     })
   
 
-    console.log(this.state.userInput, this.state.passwordInput)
-    console.log(this.state.myTeam)
+  
+    console.log(this.state)
     return (
       <div className="App">
         <Header 

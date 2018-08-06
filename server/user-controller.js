@@ -21,8 +21,16 @@ module.exports = {
     },
     
     updateBattleReady: (req, res) => {
-        req.body.teammate.battleReady= req.body.battleInput;
-        res.status(200).send(req.body.teammate)
+        myTeam=myTeam.map(teammate => {
+            console.log(teammate.name, req.body.teammate)
+            if(teammate.name===req.body.teammate){
+                console.log(req.body.battleInput)
+                teammate.battleReady=req.body.battleInput
+            }
+            console.log(teammate)
+            return teammate
+        })
+        res.status(200).send(myTeam)
     }
 
 }
