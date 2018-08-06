@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './MyGamesFooter.css';
+import Characters from '../Characters/Characters';
 
 class MyGamesFooter extends Component{
 
@@ -12,10 +13,16 @@ constructor(props){
 }
 
 render(){
+    let mappedMyTeam = this.props.myTeam.map((character, i) => {
+        return <Characters key={i} characterProp={character} deleteTeammate={this.props.deleteTeammate}/>
+    })
+    
     return(
         <div className="footer">
-            <button className="myGamesButton">My Games</button>
-            <div className="myGamesFooter"></div>
+            <button className="myGamesButton">My Team</button>
+            <div className="myGamesFooter">
+                {mappedMyTeam}
+            </div>
         </div>
         )
     }   

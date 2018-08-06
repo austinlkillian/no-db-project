@@ -7,6 +7,8 @@ const app = express();
 app.use( bodyParser.json() );
 
 app.post('/api/userInfo', uc.addUser)
+app.post('/api/myTeam', uc.addMyTeam)
+app.delete('/api/myTeam', uc.deleteTeammate)
 
 const PORT = 3005;
 app.listen(PORT, () => {

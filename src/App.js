@@ -17,12 +17,14 @@ class App extends Component {
       passwordInput: '',
       userDisplay: '',
       allCharacters: [],
-      battleReady: true
+      myTeam: []
     }
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.loginUser=this.loginUser.bind(this);
     this.getAllCharacters=this.getAllCharacters.bind(this);
+    this.addMyTeam=this.addMyTeam.bind(this);
+    this.deleteTeammate=this.deleteTeammate.bind(this)
   }
 
   handleUser(e){
@@ -50,19 +52,36 @@ class App extends Component {
 
 getAllCharacters(){
   axios.get(`https://swapi.co/api/people/`)
-  .then((response) => this.setState({allCharacters: response.data.results})
-)}
-
-addMyTeam(){
-
+  .then((response) => { 
+  console.log(response)
+  this.setState({allCharacters: response.data.results})
+})
 }
 
+addMyTeam(name){
+  let characterIndex = this.state.allCharacters.findIndex(character => character.name === name)
+axios.post(`/api/myTeam/`, {teammate: this.state.allCharacters[characterIndex]})
+.then(response =>{
+  console.log(response)
+  this.setState({myTeam: response.data})
+})
+}
+
+deleteTeammate(name){
+  let teammateIndex = this.state.myTeam.findIndex(character => character.name === name)
+  axios.delete(`/api/myTeam/`, {deletedMate: this.state.myTeam[teammateIndex]})
+  .then(response => 
+    this.setState({ myTeam: response.data})
+)}
+
   render() {
-    let mappedCharacters = this.state.allCharacters.map((character, i) => {
-      return <Characters key={i} characterProp={character} battleReady={this.state.battleReady}/>
+    let mappedCharacters = this.state.allCharacters.map((character, id) => {
+      console.log(character)
+      return <Characters key={id} characterProp={character} addMyTeam={this.addMyTeam} deleteTeammate={this.deleteTeammate}/>
     })
 
     console.log(this.state.userInput, this.state.passwordInput)
+    console.log(this.state.myTeam)
     return (
       <div className="App">
         <Header 
@@ -77,7 +96,7 @@ addMyTeam(){
             <div className="allCharactersDisplay">
             {mappedCharacters}
             </div>
-        <MyGamesFooter />
+        <MyGamesFooter myTeam={this.state.myTeam} deleteTeammate={this.deleteTeammate}/>
       </div>
     );
   }
