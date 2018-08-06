@@ -12,13 +12,16 @@ constructor(props) {
     }
 }
 
+
+
 render(){
     return(
         <div className="header">
             <div className="logo">Lvl 80 Trades!</div>
             <div className="username-display" >User: {this.props.userDisplay}
             </div>
-            <button className="allGamesButton">All Games</button>
+            <button className="allCharactersButton"
+            onClick={this.props.getAllCharacters}>All Games</button>
         </div>
         )
     }
