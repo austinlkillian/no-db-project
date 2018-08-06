@@ -17,14 +17,18 @@ class App extends Component {
       passwordInput: '',
       userDisplay: '',
       allCharacters: [],
-      myTeam: []
+      myTeam: [],
+      battleReady: 'Yes!',
+      battleInput: ''
     }
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.loginUser=this.loginUser.bind(this);
     this.getAllCharacters=this.getAllCharacters.bind(this);
     this.addMyTeam=this.addMyTeam.bind(this);
-    this.deleteTeammate=this.deleteTeammate.bind(this)
+    this.deleteTeammate=this.deleteTeammate.bind(this);
+    this.updateBattleReady=this.updateBattleReady.bind(this);
+    this.handleBattleReady=this.handleBattleReady.bind(this);
   }
 
   handleUser(e){
@@ -74,11 +78,36 @@ deleteTeammate(name){
     this.setState({ myTeam: response.data})
 )}
 
+updateBattleReady(name){
+  let teammateIndex = this.state.myTeam.findIndex(character => character.name === name)
+axios.put(`/api/myTeam/`, {teammate: this.state.myTeam[teammateIndex]}, 
+{battleReady: this.state.battleReady},
+{battleInput: this.state.battleInput})
+.then(response =>{
+  console.log(response)
+  this.setState({myTeam: response.data})
+})
+}
+
+handleBattleReady(e){
+  this.setState({battleInput: e.target.value})
+}
+
+
   render() {
     let mappedCharacters = this.state.allCharacters.map((character, id) => {
       console.log(character)
-      return <Characters key={id} characterProp={character} addMyTeam={this.addMyTeam} deleteTeammate={this.deleteTeammate}/>
+      return <Characters 
+      key={id} 
+      characterProp={character} 
+      addMyTeam={this.addMyTeam} 
+      deleteTeammate={this.deleteTeammate}
+      battleReady={this.state.battleReady}
+      updateBattleReady={this.updateBattleReady}
+      handleBattleReady={this.handleBattleReady}
+      />
     })
+  
 
     console.log(this.state.userInput, this.state.passwordInput)
     console.log(this.state.myTeam)
@@ -96,9 +125,12 @@ deleteTeammate(name){
             <div className="allCharactersDisplay">
             {mappedCharacters}
             </div>
-        <MyGamesFooter myTeam={this.state.myTeam} deleteTeammate={this.deleteTeammate}/>
+        <MyGamesFooter myTeam={this.state.myTeam} deleteTeammate={this.deleteTeammate}
+        battleReady={this.state.battleReady}
+        updateBattleReady={this.updateBattleReady}
+        handleBattleReady={this.handleBattleReady}/>
       </div>
-    );
+    )
   }
 }
 

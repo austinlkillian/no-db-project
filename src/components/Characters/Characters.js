@@ -6,7 +6,7 @@ class Characters extends Component{
         super(props)
 
         this.state = {
-            battleReady: 'Yes!'
+            
         }
     }
 
@@ -18,9 +18,12 @@ class Characters extends Component{
             <p>Name: {name}</p>
             <p>height: {height}</p>
             <p>mass: {mass}</p>
-            <p className="battleReady">Battle Ready: {this.state.battleReady}</p>
+            <p className="battleReady">Battle Ready: {this.props.battleReady}</p>
             <button onClick={() => this.props.addMyTeam(name)}>Add to Team!</button>
             <button onClick={() => this.props.deleteTeammate(name)}>Retire</button>
+            <input onChange={this.props.handleBattleReady} 
+            placeholder='Battle Ready?'/>
+            <button onClick={() => this.props.updateBattleReady(name)}>update</button>
 
         </div>
         )

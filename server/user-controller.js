@@ -18,6 +18,12 @@ module.exports = {
     deleteTeammate: (req,res) => {
         myTeam.splice(req.body.deletedMate, 1)
         res.status(200).send(myTeam)
+    },
+    
+    updateBattleReady: (req, res) => {
+        req.body.teammate.battleReady= req.body.battleInput;
+        res.status(200).send(req.body.teammate)
     }
+
 }
 
